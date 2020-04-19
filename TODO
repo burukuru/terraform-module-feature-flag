@@ -1,0 +1,6 @@
+- ECS module with feature flag for:
+  * ECS cluster using Fargate
+  * CloudWatch log group for tasks to write to (feature flagged)
+- terratest for both feature flags
+- github ci for testing in AWS account
+- AWS account restrictions
