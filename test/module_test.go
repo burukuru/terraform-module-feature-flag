@@ -1,15 +1,28 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 
+	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
+	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestTerraformEcsClusterWithLogs(t *testing.T) {
+	t.Parallel()
+
+	expectedClusterName := fmt.Sprintf("test_cluster_%s", random.UniqueId())
+
+	tempTestFolder := test_structure.CopyTerraformFolderToTemp(t, "..", "env/dev/")
+
 	terraformOptions := &terraform.Options{
-		TerraformDir: "../env/dev/",
+		TerraformDir: tempTestFolder,
+
+		Vars: map[string]interface{}{
+			"cluster_name": expectedClusterName,
+		},
 	}
 
 	defer terraform.Destroy(t, terraformOptions)
@@ -20,10 +33,16 @@ func TestTerraformEcsClusterWithLogs(t *testing.T) {
 }
 
 func TestTerraformEcsClusterWithoutLogs(t *testing.T) {
-	terraformOptions := &terraform.Options{
-		TerraformDir: "../env/dev/",
+	t.Parallel()
 
-		Vars: map[string]interface{} {
+	expectedClusterName := fmt.Sprintf("test_cluster_%s", random.UniqueId())
+	tempTestFolder := test_structure.CopyTerraformFolderToTemp(t, "..", "env/dev/")
+
+	terraformOptions := &terraform.Options{
+		TerraformDir: tempTestFolder,
+
+		Vars: map[string]interface{}{
+			"cluster_name":                expectedClusterName,
 			"create_cloudwatch_log_group": false,
 		},
 	}

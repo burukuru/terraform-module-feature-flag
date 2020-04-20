@@ -21,7 +21,7 @@ resource "aws_ecs_service" "test_service" {
 }
 
 resource "aws_ecs_cluster" "test_cluster" {
-  name = "test_cluster"
+  name = var.cluster_name
 }
 
 data "aws_vpc" "default" {

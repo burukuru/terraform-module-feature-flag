@@ -8,6 +8,8 @@ module "vpc" {
 
 module "ecs-app" {
   source = "./ecs-app"
+
+  cluster_name = var.cluster_name
 }
 
 module "cloudwatch" {
